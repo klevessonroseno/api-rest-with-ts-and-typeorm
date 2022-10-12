@@ -1,11 +1,10 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import usersResources from '../app/resources/UsersResources';
 
 const router = Router();
 
-router.get('/', (request: Request, response: Response) => {
-  response.status(200).json({
-    message: 'Tudo Certo.',
-  });
-});
+router.get('/users', usersResources.get);
+
+router.post('/users', usersResources.store);
 
 export default router;
