@@ -16,7 +16,9 @@
       "typeorm": "0.3.10"
    },
    "scripts": {
-      "dev:server": "nodemon --exec ts-node-dev src/index.ts",
+      "dev:server": "nodemon --exec ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
+      "migration:generate": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:generate ./src/migrations/default",
+      "migration:run": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:run",
       "typeorm": "typeorm-ts-node-commonjs"
    }
 }
