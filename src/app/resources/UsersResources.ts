@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import usersRepository from '../repositories/UsersRepository';
+import usersServices from '../services/UsersServices';
 
 class UsersResources {
   async get(request: Request, response: Response) {
@@ -9,10 +10,18 @@ class UsersResources {
   }
 
   async store(request: Request, response: Response) {
-    const { name, email, office } = request.body;
+    const { name, email, password } = request.body;
+    const emailRegistered = await usersRepository.checkIfRegisteredEmail(email);
 
-    const userSaved = await usersRepository.save(name, email, office);
+    if(emailRegistered) {
+      return response.status(409).json({
+        error: 'Email already registered.',
+      });
+    }
+    const encryptPassword = await usersServices.encryptPassword(password);
 
+    const userSaved = await usersRepository.save(name, email, encryptPassword);
+    
     response.status(201).json({ userSaved });
   }
 }

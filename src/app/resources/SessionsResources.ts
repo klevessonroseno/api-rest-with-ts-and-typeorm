@@ -1,30 +1,35 @@
 import { Request, Response } from 'express';
 import usersRepository from '../repositories/UsersRepository';
-import * as jwt from 'jsonwebtoken';
-import authConfig from '../../config/auth';
+import usersServices from '../services/UsersServices';
 
 class SessionsResources {
   async store(request: Request, response: Response) {
-    const { email, password } = request.body;
+    try {
+      const { email, password } = request.body;
 
-    const emailRegistered = await usersRepository.checkIfRegisteredEmail(email);
+      const emailRegistered = await usersRepository.checkIfRegisteredEmail(email);
 
-    if(!emailRegistered) return response.status(404).json({ 
-      error: 'Email not registered.',
-    });
+      if(!emailRegistered) return response.status(404).json({ 
+        error: 'Email not registered.',
+      });
 
-    const user = await usersRepository.findByEmail(email);
+      const user = await usersRepository.findByEmail(email);
 
-    const token = jwt.sign({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    }, 
-      authConfig.secret, {
-        expiresIn: authConfig.expiresIn,
-    });
+      const passwordsMatch = await usersServices.passwordsMatch(password, user.password);
 
-    return response.status(200).json({ token });
+      if(!passwordsMatch) return response.status(401).json({
+        error: 'Passwords do not match.',
+      });
+
+      const token = usersServices.generateToken(user);
+
+      return response.status(200).json({ token });
+
+    } catch (error) {
+      return response.status(500).json({
+        error: 'Something went wrong.'
+      });
+    }
   }
 }
 

@@ -21,12 +21,12 @@ class UsersRepository {
     return false;
   }
 
-  async save(name: string, email: string, office: string): Promise<User> {
+  async save(name: string, email: string, password: string): Promise<User> {
     const user = new User();
 
     user.name = name;
     user.email = email;
-    user.office = office;
+    user.password = password;
 
     return await this.usersRepository.save(user);
   }

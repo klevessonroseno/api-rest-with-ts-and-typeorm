@@ -1,17 +1,37 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity('users')
 export class User {
 
-    @PrimaryGeneratedColumn()
-    readonly id: number;
+    @PrimaryColumn({ 
+        name: 'id',
+        generated: 'uuid',
+        unique: true,
+    })
+    readonly id: string;
 
-    @Column()
+    @Column({
+        name: 'name',
+        type: 'varchar',
+        length: '100',
+        nullable: false,  
+    })
     name: string;
 
-    @Column()
+    @Column({
+        name: 'email',
+        type: 'varchar',
+        length: '100',
+        unique: true,
+        nullable: false,
+    })
     email: string;
 
-    @Column()
-    office: string;
+    @Column({
+        name: 'password',
+        type: 'varchar',
+        length: '100',
+        nullable: false,
+    })
+    password: string
 }
