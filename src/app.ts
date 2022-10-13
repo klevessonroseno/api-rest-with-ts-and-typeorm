@@ -2,7 +2,6 @@ import * as express from 'express';
 import { Express } from 'express';
 import routes from './routes/routes';
 
-
 class App {
   private server: Express;
   

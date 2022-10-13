@@ -1,5 +1,5 @@
 import { User } from '../domain/User'
-import { AppDataSource } from '../../data-source';
+import { AppDataSource } from '../../config/data-source';
 import { Repository } from 'typeorm';
 
 class UsersRepository {
