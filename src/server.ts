@@ -4,7 +4,7 @@ import server from './App';
 const port = process.env.SERVER_PORT;
 
 class Server {
-    public static init(): void {
+    static init(): void {
         AppDataSource.initialize().then(async () => {
             server.listen(port, () => {
                 console.log(`Server is running on port ${port}`);
