@@ -26,13 +26,13 @@ export default async (request: Request, response: Response, nextFunction: NextFu
   try {
     const decoded = jwt.verify(token, authConfig.secret);
     const { id, name, email } = decoded as JwtPayload;
-      
+     
     request.userId = id;
     request.userName = name;
     request.userEmail = email;
 
     return nextFunction();
-
+    
   } catch (error) {
     return response.status(401).json({
       error: 'Invalid Token.',

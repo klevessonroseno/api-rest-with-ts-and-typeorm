@@ -18,7 +18,8 @@
       "jsonwebtoken": "^8.5.1",
       "pg": "^8.4.0",
       "reflect-metadata": "^0.1.13",
-      "typeorm": "0.3.10"
+      "typeorm": "0.3.10",
+      "yup": "^0.32.11"
    },
    "scripts": {
       "dev:server": "nodemon --exec ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
